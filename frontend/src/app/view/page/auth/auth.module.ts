@@ -8,7 +8,11 @@ import { AuthRoutingModule } from './auth-routing.module';
   declarations: [],
   imports: [
     CommonModule,
-    AuthRoutingModule
-  ]
+    AuthRoutingModule,
+
+  ],
+  providers: [
+    
+  ],
 })
 export class AuthModule { }

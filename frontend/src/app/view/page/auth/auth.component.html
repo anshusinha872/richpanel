@@ -1,13 +1,13 @@
 <div class="container-fluid d-flex justify-content-center align-items-center">
-  <div *ngIf="!isConnected" class="form-container">
+  <div *ngIf="!isLoggedin" class="form-container">
     <div class="header-container my-3">
       <div>Facebook Page Integration</div>
     </div>
     <div class="form-input-container my-3">
-      <button class="btn btn-primary w-100">Connect Page</button>
+      <button (click)="loginWithFacebook()" class="btn btn-primary w-100">Connect Page</button>
     </div>
   </div>
-  <div *ngIf="isConnected" class="form-container">
+  <div *ngIf="isLoggedin" class="form-container">
     <div class="header-container my-3">
       <div>Facebook Page Integration</div>
     </div>
@@ -16,7 +16,7 @@
       <div class="mx-1 clientName">Amazon Business</div>
     </div>
     <div class="form-input-container my-3">
-      <button class="btn btn-danger w-100 my-1">Delete Integration</button>
+      <button  (click)="signOut()" class="btn btn-danger w-100 my-1">Delete Integration</button>
       <button class="btn btn-primary w-100 my-1">Reply to Messages</button>
     </div>
   </div>
