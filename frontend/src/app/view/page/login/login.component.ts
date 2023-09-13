@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
 import { AuthService } from 'src/app/service/auth/auth.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit{
   constructor(
     private formBuilder: FormBuilder,
     private toastService: HotToastService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -39,6 +41,7 @@ export class LoginComponent implements OnInit{
             localStorage.setItem('password', this.loginForm.value.password);
           }
           this.toastService.success('Login Success');
+          this.router.navigate(['/dashboard']);
         }
         console.log(res);
         if(res.statusCode == 400){

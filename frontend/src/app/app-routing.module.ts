@@ -19,7 +19,13 @@ const routes: Routes = [
         (m) => m.RegisterModule
       ),
   },
-
+  {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./view/layout/dashboard/dashboard.module').then(
+        (m) => m.DashboardModule
+      ),
+  },
   {
     path: '**',
     redirectTo: 'login',
