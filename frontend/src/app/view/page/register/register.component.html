@@ -3,13 +3,14 @@
     <div class="header-container my-3">
       <div>Create account</div>
     </div>
-    <div class="form-input-container">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-input-container">
       <div class="form-group my-3">
         <label for="name" class="form-label">Name</label>
         <input
           type="text"
           class="form-control"
           id="name"
+          formControlName="name"
           aria-describedby="name"
         />
       </div>
@@ -19,12 +20,13 @@
           type="email"
           class="form-control"
           id="email"
+          formControlName="email"
           aria-describedby="emailHelp"
         />
       </div>
       <div class="form-group my-3">
         <div class="form-label">Password</div>
-        <input class="form-control" type="password" name="" id="" />
+        <input class="form-control" formControlName="password" type="password" name="" id="" />
       </div>
       <div class="form-group my-3">
         <input
@@ -32,6 +34,7 @@
           type="checkbox"
           name="remember"
           id="remember"
+          formControlName="remember"
         />
         <label class="form-check-label mx-2" for="remember">
           Remember me
@@ -44,6 +47,6 @@
         <div>Already have an account?</div>
         <a routerLink="/login" class="mx-1">Login</a>
       </div>
-    </div>
+    </form>
   </div>
 </div>
