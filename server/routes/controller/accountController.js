@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 async function authenticate(req, res) {
 	try {
-		console.log('authenticate');
+		// console.log('authenticate');
 		let returnData = await accountService.authenticate(req);
 		return res.status(200).json(returnData);
 	} catch (err) {

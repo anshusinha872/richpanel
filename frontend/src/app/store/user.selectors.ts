@@ -32,3 +32,8 @@ export const selectLogin = createSelector(
   selectUserState,
   (state) => state.login
 )
+
+export const selectPageList = createSelector(
+  selectUserState,
+  (state) => state.pageList
+)

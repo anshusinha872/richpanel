@@ -8,6 +8,7 @@ export interface UserState {
   account: any;
   loginData: any;
   login: boolean;
+  pageList: any[];
 }
 
 const initialState: UserState = {
@@ -16,7 +17,8 @@ const initialState: UserState = {
   toggleSidebar: false,
   account: {},
   loginData: {},
-  login: false
+  login: false,
+  pageList: []
 };
 
 export const userReducer = createReducer(
@@ -26,5 +28,6 @@ export const userReducer = createReducer(
   on(UserActions.changeToggleSidebar, (state, { toggleSidebar }) => ({ ...state, toggleSidebar })),
   on(UserActions.changeAccount, (state, { account }) => ({ ...state, account })),
   on(UserActions.changeLoginData, (state, { loginData }) => ({ ...state, loginData })),
-  on(UserActions.changeLogin, (state, { login }) => ({ ...state, login }))
+  on(UserActions.changeLogin, (state, { login }) => ({ ...state, login })),
+  on(UserActions.changePageList, (state, { pageList }) => ({ ...state, pageList })),
 );

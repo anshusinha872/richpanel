@@ -13,11 +13,17 @@
     </div>
     <div class="sub-header-container p-2 d-flex justify-content-center">
       <div>Integrated Page :</div>
-      <div class="mx-1 clientName">Amazon Business</div>
+      <div class="mx-1 clientName">{{(account$ | async).name}}</div>
+
     </div>
-    <div class="form-input-container my-3">
+    <div class="form-input-container my-3 d-flex">
       <button  (click)="signOut()" class="btn btn-danger w-100 my-1">Delete Integration</button>
-      <button class="btn btn-primary w-100 my-1">Reply to Messages</button>
+    </div>
+    <div class="form-input-container my-3 d-flex">
+      <div *ngFor="let item of (pageList$ | async)" class="mx-1">
+        <div>{{item.name}}</div>
+        <button (click)="redirectToPortal(item)" class="btn btn-primary w-100 my-1">Reply to Messages</button>
+      </div>
     </div>
   </div>
 </div>

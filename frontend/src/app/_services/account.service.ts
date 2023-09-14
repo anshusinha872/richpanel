@@ -8,7 +8,7 @@ import { environment } from '../environments/environment';
 import { Account } from '../_models';
 import { Store } from '@ngrx/store';
 import * as UserActions from '../store/user.actions';
-
+import { selectLogin,selectAccount,selectLoginData,selectPageList} from '../store/user.selectors'; // Import your selectors
 const baseUrl = `${environment.apiUrl}/accounts`;
 
 declare const FB: any;
@@ -28,7 +28,7 @@ export class AccountService {
         this.accountSubject = new BehaviorSubject<Account>(null);
         this.account = this.accountSubject.asObservable();
     }
-
+    loginData$ = this.store.select(selectLoginData);
     public get accountValue(): Account {
         return this.accountSubject.value;
     }
@@ -41,46 +41,54 @@ export class AccountService {
     changeLogin(login: boolean) {
       this.store.dispatch(UserActions.changeLogin({ login }));
     }
+    changePageList(pageList: any) {
+      this.store.dispatch(UserActions.changePageList({ pageList }));
+    }
     login() {
         // login with facebook then authenticate with the API to get a JWT auth token
         this.facebookLogin()
-            .pipe(concatMap(accessToken => this.apiAuthenticate(accessToken)))
+            .pipe(concatMap(authResponse => this.apiAuthenticate(authResponse)))
 
             .subscribe(() => {
 
-              console.log('this.accountValue',this.accountValue);
-              this.changeAccount(this.accountValue);
-              this.router.navigate(['/dashboard/portal']);
-              // with account value as state to pass to dashboard
-              // this.router.navigate(['/dashboard/portal'], { state: { account: this.accountValue } });
-                // get return url from query parameters or default to home page
-                // const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-                // console.log('returnUrl',returnUrl);
-                // this.router.navigateByUrl(returnUrl);
+              // console.log('this.accountValue',this.accountValue);
+              // this.changeAccount(this.accountValue);
+              // this.router.navigate(['/dashboard/portal']);
+
             });
     }
 
     facebookLogin() {
+      const permissions = [ 'pages_manage_posts'];
+      const scope = permissions.join(',');
         // login with facebook and return observable with fb access token on success
-        return from(new Promise<any>(resolve => FB.login(resolve)))
+        return from(new Promise<any>(resolve => FB.login(resolve,{scope})))
             .pipe(concatMap(({ authResponse }) => {
                 if (!authResponse) return EMPTY;
                 this.changeLoginData(authResponse);
                 console.log(authResponse);
                 this.changeLogin(true);
-                return of(authResponse.accessToken);
+                // return of(authResponse.accessToken);
+                return of(authResponse)
             }));
     }
 
-    apiAuthenticate(accessToken: string) {
+    apiAuthenticate(authResponse: string) {
+      console.log('apiAuthenticate function called')
         // authenticate with the api using a facebook access token,
         // on success the api returns an account object with a JWT auth token
-        this.facebookService.authenticate({ accessToken });
-        return this.http.post<any>(`${baseUrl}/authenticate`, { accessToken })
-            .pipe(map(account => {
-                this.accountSubject.next(account);
-                this.startAuthenticateTimer();
-                return account;
+
+        // this.facebookService.authenticate(this.loginData$);
+        return this.facebookService.authenticate({ authResponse })
+            .pipe(map(data => {
+              console.log('apiAuthenticate function called',data)
+                // this.accountSubject.next(data.user);
+                // this.startAuthenticateTimer();
+                console.log('data',data.data);
+                this.changeAccount(data.data.user);
+                console.log('data.data.user',data.data.pages);
+                this.changePageList(data.data.pages);
+                return data;
             }));
     }
 
