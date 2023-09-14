@@ -59,7 +59,7 @@ export class AccountService {
     }
 
     facebookLogin() {
-      const permissions = [ 'pages_manage_posts'];
+      const permissions = [ 'pages_manage_posts','pages_manage_metadata','pages_read_engagement','pages_messaging'];
       const scope = permissions.join(',');
         // login with facebook and return observable with fb access token on success
         return from(new Promise<any>(resolve => FB.login(resolve,{scope})))

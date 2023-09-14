@@ -41,10 +41,12 @@ app.use(
 );
 const userController = routes.userController;
 const accountController = routes.accountController;
+const conversationController = routes.conversationController;
+
 const API_URL = '/api/v1/';
 app.use(API_URL, userController);
 app.use(API_URL, accountController);
-
+app.use(API_URL,conversationController);
 
 app.listen(port, () => console.log(`Server listening on port ${port}!`));
 
