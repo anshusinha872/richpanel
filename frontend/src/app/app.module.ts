@@ -20,6 +20,9 @@ import { localStorageSync } from 'ngrx-store-localstorage'; // Import localStora
 import {userReducer } from './store/user.reducer'
 const localStorageSyncReducer = (reducer: any) =>
   localStorageSync({ keys: ['user'], rehydrate: true })(reducer);
+  import { CommonModule } from '@angular/common';
+  import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +32,9 @@ const localStorageSyncReducer = (reducer: any) =>
     PortalComponent,
   ],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

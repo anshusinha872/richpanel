@@ -15,4 +15,7 @@ export class ConversationService {
   getAllMessages(param:any): Observable<any> {
     return this.api.post('conversation/getAllMessages', param);
   }
+  reponseMessage(param:any): Observable<any> {
+    return this.api.post('conversation/reponseMessage', param);
+  }
 }

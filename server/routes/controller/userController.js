@@ -23,4 +23,13 @@ async function loginUser(req, res) {
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
+router.post('/webhook', async (req, res) => {
+	// console.log(req.body);
+	console.log('webhook');
+	console.log(req.body);
+	console.log(req.body.entry[0].messaging);
+	let reponseMessage = await userService.reponseMessage(req);
+	res.status(200).send('EVENT_RECEIVED');
+
+});
 module.exports = router;

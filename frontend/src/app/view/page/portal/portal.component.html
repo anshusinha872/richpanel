@@ -27,44 +27,26 @@
       <div class="conversation-thread-header d-flex flex-row justify-content-between w-100">
         <i class="fa-solid fa-bars "></i>
         <div class="thread-header-text">Conversations</div>
-        <i class="fa-solid fa-rotate"></i>
+        <i (click)="refresh()" class="fa-solid fa-rotate"></i>
       </div>
       <div *ngFor="let conversation of conversationList" class="conversation-customer-container">
-        <!-- <div class="customer customer-active">
+        <div (click)="activeConversation(conversation)" class="customer ">
           <div class="customer-header">
             <div class="customer-header-left d-flex justify-content-center align-items-center">
               <input class="form-check-input" type="checkbox" name="" id="" />
             </div>
             <div class="customer-header-right w-100 d-flex flex-row justify-content-between align-items-center">
               <div class="customer-name-container">
-                <div class="customer-name">Amit RG</div>
-                <div class="message-src">Facebook DM</div>
-              </div>
-              <div class="customer-time">10m</div>
-            </div>
-          </div>
-          <div class="customer-footer">
-            <div class="thread-main-text">Awesome Product</div>
-            <div class="thread-subtext">
-              Hey There! I probably did one of the best....
-            </div>
-          </div>
-        </div> -->
-        <div (click)="getMessage(conversation)" class="customer ">
-          <div class="customer-header">
-            <div class="customer-header-left d-flex justify-content-center align-items-center">
-              <input class="form-check-input" type="checkbox" name="" id="" />
-            </div>
-            <div class="customer-header-right w-100 d-flex flex-row justify-content-between align-items-center">
-              <div class="customer-name-container">
-                <div class="customer-name">Amit RG</div>
+                <div class="customer-name">{{conversation.name}}</div>
                 <div class="message-src">facebook DM</div>
               </div>
               <div class="customer-time">10m</div>
             </div>
           </div>
           <div class="customer-footer">
-            <div class="thread-main-text">Awesome Product</div>
+            <div class="thread-main-text">{{conversation.message[
+              conversation.message.length - 1
+              ].message}}</div>
             <div class="thread-subtext">
               Hey There! I probably did one of the best....
             </div>
@@ -72,16 +54,41 @@
         </div>
       </div>
     </div>
-    <div class="conversation-text-container">
-      <div class="conversation-container-header">Amit RG</div>
-      <div class="conversation-box-container"></div>
+    <div *ngIf="conversation" class="conversation-text-container">
+      <div class="conversation-container-header">{{conversation.name}}</div>
+      <div class="conversation-box-container">
+        <div class="chat-container row m-0 p-0 w-100">
+          <div [ngClass]="{admin: message.sender_id==message.recipient_id,user:message.sender_id!=message.recipient_id}" *ngFor="let message of chatData" class="chat-message d-flex">
+            <div class="message-container">
+              <div class="d-flex align-items-center">
+                <img *ngIf="message.sender_id!=message.recipient_id" class="chat-img" width="40" height="40" src={{conversation.profile_pic}} alt="" />
+                <i *ngIf="message.sender_id==message.recipient_id" class="fa-solid fa-circle-user"></i>
+                <div class="message-text mx-2">{{ message.message }}</div>
+              </div>
+              <div class="d-flex message-sender-container">
+                <div class="message-sender">{{ conversation.name }}</div>
+                <div class="mx-1">-</div>
+                <div class="message-time">{{ message.time_of_message  | date : "MMM dd, yyyy, h:mm a"}}</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div *ngIf="chatData" class="input-container">
+          <input type="text" class="form-control" [(ngModel)]="replyMessage" placeholder="Reply" aria-label="Reply" aria-describedby="basic-addon1">
+          <div class="input-group-append">
+            <span (click)="reply()" class="input-group-text" id="basic-addon1">Send</span>
+          </div>
+        </div>
+      </div>
+
     </div>
-    <div class="customer-profile-container">
+    <div *ngIf="chatData" class="customer-profile-container">
       <div class="customer-profile-header">
         <div class="customer-logo-container">
-          <img width="40" height="40" src="./assets/logo.png" alt="" />
+          <img width="40" height="40" src={{conversation.profile_pic}} alt="" />
         </div>
-        <div class="customer-name">Amit RG</div>
+        <div class="customer-name">{{conversation.name}}</div>
         <div class="customer-active-status d-flex align-items-center">
           <div class="customer-active-status-dot"></div>
           <div class="customer-active-status-text">offline</div>
@@ -103,15 +110,15 @@
           <div class="customer-details">
             <div class="d-flex justify-content-between">
               <div class="label">Email</div>
-              <div class="value">amit@richpanel.com</div>
+              <div class="value">test@richpanel.com</div>
             </div>
             <div class="d-flex justify-content-between">
               <div class="label">First Name</div>
-              <div class="value">Amit</div>
+              <div class="value">{{conversation.first_name}}</div>
             </div>
             <div class="d-flex justify-content-between">
               <div class="label">Last Name</div>
-              <div class="value">RG</div>
+              <div class="value">{{conversation.last_name}}</div>
             </div>
             <div class="more-details-text">View more details</div>
           </div>

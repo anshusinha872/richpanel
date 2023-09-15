@@ -78,7 +78,45 @@ const registerUser = async (req) => {
     return resultdb(500, null, err);
   }
 };
+const reponseMessage = async (req) => {
+  try{
+    console.log('webhook');
+	  console.log(req.body);
+	  console.log(req.body.entry[0].messaging);
+    const pageId = req.body.entry[0].id;
+    const senderId = req.body.entry[0].messaging[0].sender.id;
+    const recipientId = req.body.entry[0].messaging[0].recipient.id;
+    const timeOfMessage = req.body.entry[0].messaging[0].timestamp;
+    const message = req.body.entry[0].messaging[0].message.text;
+    const messageId = message.mid;
+    // const messageText = message.text;
+    // const messageAttachments = message.attachments;
+    // const accessToken = req.body.access_token;
+    // const pageName = req.body.name;
+    // const url = `https://graph.facebook.com/v11.0/${senderId}?fields=first_name,last_name,profile_pic&access_token=${accessToken}`;
+    // const response = await axios.get(url);
+    // const sender = response.data;
+    // console.log("sender", sender);
+    // const messageData = {
+    //   recipient: {
+    // }
+    const insertQuery = "INSERT INTO messages ( sender_id, recipient_id, time_of_message, message) VALUES (?, ?, ?, ?)";
+    let insertResponse = await pool.query(insertQuery, [senderId, recipientId, timeOfMessage, message]);
+    if(insertResponse.affectedRows > 0){
+      return resultdb(200, null, "Message inserted successfully");
+    }
+    else{
+      return resultdb(400, null, "Message insertion failed");
+    }
+
+  }
+  catch(err){
+    console.log(err);
+    return resultdb(500, null, err);
+  }
+}
 module.exports = {
   loginUser,
   registerUser,
+  reponseMessage
 };
