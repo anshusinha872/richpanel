@@ -26,6 +26,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  cursor: pointer;
 }
 .agent-logo-container {
   background-color: #1e4d91;
@@ -207,7 +208,7 @@
 .customer-profile-header {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   min-height: 200px;
 }
@@ -331,4 +332,11 @@
 .chat-container{
   overflow-y: scroll;
   margin-bottom: 71px !important;
+}
+.input-group-text{
+  background-color: #1e4d91;
+  color: #fff;
+  border: 1px solid #1e4d91;
+  border-radius: 5px;
+  cursor: pointer;
 }

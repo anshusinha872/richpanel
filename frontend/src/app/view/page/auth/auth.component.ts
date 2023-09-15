@@ -43,6 +43,9 @@ export class AuthComponent implements OnInit{
   signOut(): void {
     this.accountService.logout();
   }
+  logOut(){
+    this.router.navigate(['/login']);
+  }
   redirectToPortal(item){
     console.log(item);
     // navigate to portal page and pass the item as state

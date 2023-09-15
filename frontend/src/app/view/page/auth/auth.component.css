@@ -2,6 +2,11 @@
   min-height: 100vh;
   background-color: #1e4d91;
 }
+.logoutBtnContainer{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 .form-container{
   background-color: #fff;
   border-radius: 10px;

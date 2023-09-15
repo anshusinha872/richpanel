@@ -2,7 +2,7 @@
   <div class="sidebar-container">
     <div>
 
-      <div class="sidebar-logo-container">
+      <div (click)="redirectToHome()" class="sidebar-logo-container">
         <img width="40" height="40" src="./assets/logo.png" alt="" />
       </div>
       <div class="sidebar-navitems-container">
@@ -66,7 +66,8 @@
                 <div class="message-text mx-2">{{ message.message }}</div>
               </div>
               <div class="d-flex message-sender-container">
-                <div class="message-sender">{{ conversation.name }}</div>
+                <div *ngIf="message.sender_id!=message.recipient_id" class="message-sender">{{ conversation.name }}</div>
+                <div *ngIf="message.sender_id==message.recipient_id" class="message-sender">Admin</div>
                 <div class="mx-1">-</div>
                 <div class="message-time">{{ message.time_of_message  | date : "MMM dd, yyyy, h:mm a"}}</div>
               </div>
@@ -86,10 +87,12 @@
     <div *ngIf="chatData" class="customer-profile-container">
       <div class="customer-profile-header">
         <div class="customer-logo-container">
-          <img width="40" height="40" src={{conversation.profile_pic}} alt="" />
+          <img style="
+          border-radius: 100%;
+      " width="40" height="40" src={{conversation.profile_pic}} alt="" />
         </div>
-        <div class="customer-name">{{conversation.name}}</div>
-        <div class="customer-active-status d-flex align-items-center">
+        <div class="customer-name my-2">{{conversation.name}}</div>
+        <div class="customer-active-status my-1 d-flex align-items-center">
           <div class="customer-active-status-dot"></div>
           <div class="customer-active-status-text">offline</div>
         </div>

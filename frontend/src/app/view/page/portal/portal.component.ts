@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ConversationService } from 'src/app/service/conversation/conversation.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-portal',
   templateUrl: './portal.component.html',
@@ -16,6 +16,7 @@ export class PortalComponent implements OnInit{
   replyMessage: string = '';
   constructor(
     private conversationService: ConversationService,
+    private router: Router
   ) {
     const navigation = window.history.state;
     this.pageInfo = navigation.item;
@@ -99,5 +100,8 @@ export class PortalComponent implements OnInit{
     this.getConversation();
     this.conversation = null;
     this.chatData = null;
+  }
+  redirectToHome(){
+    this.router.navigate(['/dashboard']);
   }
 }
